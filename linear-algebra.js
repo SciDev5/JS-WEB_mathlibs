@@ -81,6 +81,7 @@ class Matrix2x2 {
   constructor(a,b,c,d) {
     this.values = [a,b,c,d];
   }
+  // Multiply the matrix with another Matrix2x2, Vector2, or scalar.
   mul(o) {
     switch(o.constructor) {
       case Matrix2x2:
@@ -102,24 +103,31 @@ class Matrix2x2 {
         break;
     }
   }
+  // Create an identity matrix.
   static identity() {
     return new Matrix2x2(1,0,0,1);
   }
+  // Create a rotation matrix.
   static rotate(a) {
     return new Matrix2x2(Math.cos(a),-Math.sin(a),Math.sin(a),Math.cos(a));
   }
+  // Create a scaling matrix.
   static scale(f) {
     return new Matrix2x2(f,0,0,f);
   }
+  // Create a shear matrix along the X axis.
   static shearX(f) {
     return new Matrix2x2(1,f,0,1)
   }
+  // Create a shear matrix along the Y axis.
   static shearY(f) {
     return new Matrix2x2(1,0,f,1)
   }
+  // Convert to string.
   toString() {
     return "MATRIX "+JSON.stringify(this.values);
   }
+  // Determinant, "area scaling factor"
   det() {
     return this.values[0]*this.values[3]-this.values[1]*this.values[2];
   }
