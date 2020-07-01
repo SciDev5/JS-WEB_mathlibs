@@ -68,16 +68,6 @@ class Vector2 {
   static mul(v,n) {
     return new Vector2(v.x*n,v.y*n);
   }
-  // Scale this vector inversely preportional to factor n. (Changes this vector)
-  div(n) {
-    this.x /= n;
-    this.y /= n;
-    return this;
-  }
-  // Scale a vector v inversely preportional to factor n.
-  static div(v,n) {
-    return new Vector2(v.x/n,v.y/n);
-  }
   // Project vector a onto the axis of vector b.  (a ⋅ b̂) b̂
   static project(a,b) { // project a onto b's axis.
     return Vector2.nor(b).mul(Vector2.dot(a,Vector2.nor(b)));
