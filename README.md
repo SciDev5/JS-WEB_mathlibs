@@ -1,9 +1,14 @@
 # JS-WEB_mathlibs
 Basic math libraries for client side browser JavaScript.
 
-# Classes
+# Linear Algebra Library
 
 ## Vector2
+
+```
+Constructor:
+new Vector2(x,y);
+```
 
 #### Functions
 - nor(): return this = this/|this|;
@@ -24,3 +29,24 @@ Basic math libraries for client side browser JavaScript.
 - mul(v,n) return v * n;
 - set(v):  return this = v;
 - project(a,b): return (a · b̂) b̂;
+
+## Matrix2x2
+ 
+```
+Constructor:
+new Matrix2x2(a,b,c,d);
+
+[ a b ]
+[ c d ]
+```
+
+#### Functions
+- mul(o): Multiply the matrix with another Matrix2x2, Vector2, or scalar.
+- toString(): Display as string.
+- det(): Determinant, "area scaling factor"
+#### Static Functions
+- identity(): Create an identity matrix.
+- rotate(a): Create a rotation matrix with angle a.
+- scale(f): Crate a scaling matrix.
+- shearX(f): Create a x-shear matrix.
+- shearY(f): Create a y-shear matrix.
