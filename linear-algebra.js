@@ -77,6 +77,74 @@ class Vector2 {
   }
 }
 
+class MatrixNxM {
+  constructor(li,lj,values) {
+    this.li = li;
+    this.lj = lj;
+    this.values = values;
+  }
+  // Multiply the matrix with another Matrix2x2, Vector2, or scalar.
+  mul(o) {
+    switch(o.constructor) {
+      case MatrixNxM:
+        if (this.li != o.lj || this.lj != o.li) break;
+        var newValues = [];
+        var lm = this.li;
+        var lsum = this.lj;
+        for (var i = 0; i < lm; i++) {
+          for (var j = 0; j < lm; j++) {
+            var sum = 0;
+            for (var k = 0; k < lsum; k++) {
+              sum += this.values[(k)+(j)*this.li] * o.values[(i)+(k)*o.li];
+            }
+            newValues.push(sum);
+          }
+        }
+        return new MatrixNxN(lm, lm, newValues);
+        break;
+      case VectorN:
+        if (this.li != o.values.length) break;
+        var vecValues = new Array(this.lj).fill(0);
+        for (var i = 0; i < this.li; i++) {
+          for (var j = 0; j < this.lj; j++) {
+            vecValues[j] += o.values[i] * this.values[i+j*this.li];
+          }
+        }
+        return new VectorN(vecValues);
+        break;
+      case Number:
+        var newValues = [];
+        for (var i = 0; i < values.length; i++) newValues.push(values[i] * o);
+        return new MatrixNxM(this.li,this.lj,newValues);
+        break;
+    }
+  }
+  // Create an identity matrix.
+  static identity(dim) {
+    var arr = new Array(dim*dim).fill(0);
+    for (var i = 0; i < dim; i++) {
+      arr[i*(1+dim)] = 1;
+    }
+    return new MatrixNxM(dim,dim,arr);
+  }
+  // Create a scaling matrix.
+  static scale(dim,f) {
+    var arr = new Array(dim*dim).fill(0);
+    for (var i = 0; i < dim; i++) {
+      arr[i*(1+dim)] = f;
+    }
+    return new MatrixNxM(dim,dim,arr);
+  }
+  // Convert to string.
+  toString() {
+    return "MATRIX "+JSON.stringify(this.values);
+  }
+  // Determinant, "area scaling factor"
+  /*det() { NEEDS FIXING
+    return this.values[0]*this.values[3]-this.values[1]*this.values[2];
+  }*/
+}
+
 class Matrix2x2 {
   constructor(a,b,c,d) {
     this.values = [a,b,c,d];
