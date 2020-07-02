@@ -3,7 +3,7 @@ Basic math libraries for client side browser JavaScript.
 
 # Linear Algebra Library
 
-All functions/classes will automatically be put into `window.linearAlgebra`.
+All functions/classes will automatically be put into `window.mathLibs_LinearAlgebra`.
 
 ## Vector2
 
