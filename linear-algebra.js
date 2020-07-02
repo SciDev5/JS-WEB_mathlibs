@@ -132,3 +132,6 @@ class Matrix2x2 {
     return this.values[0]*this.values[3]-this.values[1]*this.values[2];
   }
 }
+
+window.mathLibs_LinearAlgebra = {Vector2, Matrix2x2};
+Object.freeze(window.mathLibs_LinearAlgebra);
