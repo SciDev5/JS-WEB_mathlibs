@@ -24,11 +24,11 @@ class Vector2 {
   }
   // Normalize this vector. (Changes this vector)
   nor() {
-    return this.div(this.len());
+    return this.mul(1/this.len());
   }
   // Return a normalized copy of a vector v.
   static nor(v) {
-    return Vector2.div(v,v.len());
+    return Vector2.mul(v,1/v.len());
   }
   // Dot product between a and b.
   static dot(a,b) {
@@ -74,6 +74,121 @@ class Vector2 {
   }
   projectTo(v) { // Project this onto the axis of vector b.  this = (this ⋅ v̂) v̂
     return this.set(Vector2.project(this,v));
+  }
+}
+
+// N-Dimensional Vector
+class VectorN {
+  constructor(values) {
+    this.values = values;
+  }
+  // Return a duplicate of this vector.
+  copy() { 
+    var newValues = [];
+    for (var i = 0; i < this.values.length; i++) {
+      newValues.push(this.values[i])
+    }
+    return new VectorN(newValues);
+  }
+  // Redefine coordinates of this to the coordinates of another vector.
+  set(other) {
+    if (this.values.length != other.values.length) return null;
+    for (var i = 0; i < this.values.length; i++) this.values[i] = other.values[i];
+    return this;
+  }
+  // Squared length of this vector. (Same as VectorN.dot(this,this))
+  sqr() {
+    var sum = 0;
+    for (var i = 0; i < this.values.length; i++) sum += this.values[i] * this.values[i]
+    return sum; 
+  }
+  // Length of the vector.
+  len() {
+    return Math.sqrt(this.sqr());
+  }
+  // Normalize this vector. (Changes this vector)
+  nor() {
+    return this.mul(1/this.len());
+  }
+  // Return a normalized copy of a vector v.
+  static nor(v) {
+    return VectorN.mul(v,1/v.len());
+  }
+  // Dot product between a and b.
+  static dot(a,b) {
+    if (a.values.length != b.values.length) return null;
+    var sum = 0;
+    for (var i = 0; i < a.values.length; i++) sum += a.values[i] * b.values[i];
+    return sum;
+  }
+  // Cross product between vectors.
+  static cross(vectors) {
+    var dim = vectors[0].values.length;
+    if (dim != vectors.length - 1) return null; // Cross product must be valid.
+    for (var v of vectors) if (n != -1 && n != v.values.length) return null;
+    var newValues = [];
+    
+    for (var i = 0; i < dim; i++) {
+      var mvs = [];
+      for (var vec of vectors) {
+        for (var j = 0; j < dim; j++) {
+          if (i != j) mvs.push(vec[j])
+        }
+      }
+      newValues[i] = (i%2==0?-1:1)*new MatrixNxM(dim-1,dim-1,mvs).det();
+    }
+    
+    return sum;
+  }
+  // Add another vector to this. (Changes this vector)
+  add(other) {
+    if (this.values.length != other.values.length) return null;
+    for (var i = 0; i < this.values.length; i++) this.values[i] += other.values[i];
+    return this;
+  }
+  // Add two vectors a + b.
+  static add(a,b) {
+    if (a.values.length != b.values.length) return null;
+    var newValues = [];
+    for (var i = 0; i < a.values.length; i++) {
+      newValues.push(a.values[i] + b.values[i])
+    }
+    return new VectorN(newValues);
+  }
+  // Subtract another vector from this. (Changes this vector)
+  sub(other) {
+    if (this.values.length != other.values.length) return null;
+    for (var i = 0; i < this.values.length; i++) this.values[i] -= other.values[i];
+    return this;
+  }
+  // Subtract two vectors a - b.
+  static sub(a,b) {
+    if (a.values.length != b.values.length) return null;
+    var newValues = [];
+    for (var i = 0; i < a.values.length; i++) {
+      newValues.push(a.values[i] - b.values[i])
+    }
+    return new VectorN(newValues);
+  }
+  // Scale this vector by factor n. (Changes this vector)
+  mul(n) {
+    for (var i = 0; i < this.values.length; i++) this.values[i] *= n;
+    return this;
+  }
+  // Scale a vector v by factor n.
+  static mul(v,n) {
+    var newValues = [];
+    for (var i = 0; i < v.values.length; i++) {
+      newValues.push(v.values[i] * n)
+    }
+    return new VectorN(newValues);
+  }
+  // Project vector a onto the axis of vector b.  (a ⋅ b̂) b̂
+  static project(a,b) { // project a onto b's axis.
+    return VectorN.nor(b).mul(VectorN.dot(a,VectorN.nor(b)));
+  }
+  projectTo(v) { // Project this onto the axis of vector b.  this = (this ⋅ v̂) v̂
+    return this.set(VectorN.project(this,v));
   }
 }
 
@@ -140,9 +255,25 @@ class MatrixNxM {
     return "MATRIX "+JSON.stringify(this.values);
   }
   // Determinant, "area scaling factor"
-  /*det() { NEEDS FIXING
-    return this.values[0]*this.values[3]-this.values[1]*this.values[2];
-  }*/
+  det() {
+    if (this.li != this.lj) return null; // Cant take determinant of non-square matrices.
+    var sum = 0;
+    for (var i = 0; i < this.li; i++) {
+      var product = 1;
+      for (var j = 0; j < this.li; j++) {
+        var x = (i + j) % 3, y = j;
+        product *= this.values[x+y*this.li];
+      }
+      sum += product;
+      product = 1;
+      for (var j = 0; j < this.li; j++) {
+        var x = (i + 3 - j) % 3, y = j;
+        product *= this.values[x+y*this.li];
+      }
+      sum -= product;
+    }
+    return sum;
+  }
 }
 
 class Matrix2x2 {
