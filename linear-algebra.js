@@ -298,8 +298,8 @@ class Matrix2x2 {
   transformPoint(vec) {
     if (vec instanceof Vector2) {
       return new Vector2(
-        this.values[0]*o.x+this.values[1]*o.y,
-        this.values[2]*o.x+this.values[3]*o.y
+        this.values[0]*vec.x+this.values[1]*vec.y,
+        this.values[2]*vec.x+this.values[3]*vec.y
       );
     } else {
       throw new TypeError("vec not of type Vector2");
