@@ -198,42 +198,43 @@ class MatrixNxM {
     this.lj = lj;
     this.values = values;
   }
-  // Multiply the matrix with another Matrix2x2, Vector2, or scalar.
+  // Multiply the matrix with another MatrixNxM.
   mul(o) {
-    switch(o.constructor) {
-      case MatrixNxM:
-        if (this.li != o.lj || this.lj != o.li) break;
-        var newValues = [];
-        var lm = this.li;
-        var lsum = this.lj;
-        for (var i = 0; i < lm; i++) {
-          for (var j = 0; j < lm; j++) {
-            var sum = 0;
-            for (var k = 0; k < lsum; k++) {
-              sum += this.values[(k)+(j)*this.li] * o.values[(i)+(k)*o.li];
-            }
-            newValues.push(sum);
+    if (o instanceof MatrixNxM) {
+      if (this.li != o.lj || this.lj != o.li) throw new TypeError("matrix dimensions incompatable");
+      var newValues = [];
+      var lm = this.li;
+      var lsum = this.lj;
+      for (var i = 0; i < lm; i++) {
+        for (var j = 0; j < lm; j++) {
+          var sum = 0;
+          for (var k = 0; k < lsum; k++) {
+            sum += this.values[(k)+(j)*this.li] * o.values[(i)+(k)*o.li];
           }
+          newValues.push(sum);
         }
-        return new MatrixNxN(lm, lm, newValues);
-        break;
-      case VectorN:
-        if (this.li != o.values.length) break;
-        var vecValues = new Array(this.lj).fill(0);
-        for (var i = 0; i < this.li; i++) {
-          for (var j = 0; j < this.lj; j++) {
-            vecValues[j] += o.values[i] * this.values[i+j*this.li];
-          }
-        }
-        return new VectorN(vecValues);
-        break;
-      case Number:
-        var newValues = [];
-        for (var i = 0; i < values.length; i++) newValues.push(values[i] * o);
-        return new MatrixNxM(this.li,this.lj,newValues);
-        break;
+      }
+      return new MatrixNxN(lm, lm, newValues);
+    } else {
+      throw new TypeError("o not of type MatrixNxM");
     }
   }
+  // Transform a VectorN according to the matrix.
+  tranformPoint(vec) {
+    if (vec instanceof VectorN) {
+      if (this.li != vec.values.length) throw new TypeError("vector dimensions not compatible with matrix");
+      var vecValues = new Array(this.lj).fill(0);
+      for (var i = 0; i < this.li; i++) {
+        for (var j = 0; j < this.lj; j++) {
+          vecValues[j] += vec.values[i] * this.values[i+j*this.li];
+        }
+      }
+      return new VectorN(vecValues);
+    } else {
+      throw new TypeError("vec not of type VectorN");
+    }
+  }
+    
   // Create an identity matrix.
   static identity(dim) {
     var arr = new Array(dim*dim).fill(0);
@@ -280,28 +281,31 @@ class Matrix2x2 {
   constructor(a,b,c,d) {
     this.values = [a,b,c,d];
   }
-  // Multiply the matrix with another Matrix2x2, Vector2, or scalar.
+  // Multiply the matrix with another Matrix2x2.
   mul(o) {
-    switch(o.constructor) {
-      case Matrix2x2:
-        return new Matrix2x2(
-          o.values[0]*this.values[0]+o.values[1]*this.values[2],
-          o.values[0]*this.values[1]+o.values[1]*this.values[3],
-          o.values[2]*this.values[0]+o.values[3]*this.values[2],
-          o.values[2]*this.values[1]+o.values[3]*this.values[3]
-        );
-        break;
-      case Vector2:
-        return new Vector2(
-          this.values[0]*o.x+this.values[1]*o.y,
-          this.values[2]*o.x+this.values[3]*o.y
-        );
-        break;
-      case Number:
-        return new Matrix2x2(this.values[0]*o,this.values[1]*o,this.values[2]*o,this.values[3]*o);
-        break;
+    if (o instanceof Matrix2x2) {
+      return new Matrix2x2(
+        o.values[0]*this.values[0]+o.values[1]*this.values[2],
+        o.values[0]*this.values[1]+o.values[1]*this.values[3],
+        o.values[2]*this.values[0]+o.values[3]*this.values[2],
+        o.values[2]*this.values[1]+o.values[3]*this.values[3]
+      );
+    } else {
+      throw new TypeError("o not of type Matrix2x2");
     }
   }
+  // Transform a Vector2 according to the matrix.
+  transformPoint(vec) {
+    if (vec instanceof Vector2) {
+      return new Vector2(
+        this.values[0]*o.x+this.values[1]*o.y,
+        this.values[2]*o.x+this.values[3]*o.y
+      );
+    } else {
+      throw new TypeError("vec not of type Vector2");
+    }
+  }
+  
   // Create an identity matrix.
   static identity() {
     return new Matrix2x2(1,0,0,1);
