@@ -74,7 +74,7 @@ class AxisAlignedBB2 {
       throw new TypeError("Change in this pos not finite.");
     var otherExpanded = AxisAlignedBB2.expand(aabb,this.width,this.height);
     var intersectionNormals = [];
-    var intersectionTimes = otherExpanded.intersectRay(this.centerX,this.centerY,thisDx,thisDy,intersectionNormals);
+    var intersectionTimes = otherExpanded.intersectingRay(this.centerX,this.centerY,thisDx,thisDy,intersectionNormals);
     for (var i = intersectionTimes.length-1; i >= 0; i--) {
       if (intersectionTimes[i] > 1) {
         intersectionTimes.splice(i);
