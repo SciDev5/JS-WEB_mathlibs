@@ -68,7 +68,7 @@ class AxisAlignedBB2 {
   }
   // Check if the path of this AABB intersects with another AABB.
   dynamicIntersectingAABB(aabb,thisDx,thisDy) {
-    if ((aabb instanceof AxisAlignedBB2))
+    if (!(aabb instanceof AxisAlignedBB2))
       throw new TypeError("aabb not of type AxisAlignedBB2!");
     if (!isFinite(thisDx) || !isFinite(thisDy))
       throw new TypeError("Change in this pos not finite.");
