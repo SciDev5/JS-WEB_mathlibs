@@ -52,3 +52,31 @@ new Matrix2x2(a,b,c,d);
 - scale(f): Crate a scaling matrix.
 - shearX(f): Create a x-shear matrix.
 - shearY(f): Create a y-shear matrix.
+
+
+# Axis-Aligned Bounding Box Library
+
+All functions/classes will automatically be put into `window.mathLibs_AxisAlignedBB`.
+
+## AxisAlignedBB2
+
+```
+Constructor:
+new AxisAlignedBB2(x0,y0,x1,y1);
+```
+#### Fields
+- minX: minimum x-coord;
+- maxX: maximum x-coord;
+- minY: minimum y-coord;
+- maxY: maximum y-coord;
+- width: width of the box (READ ONLY);
+- height: height of the box (READ ONLY);
+- centerX: center x-coord of box (READ ONLY);
+- centerY: center y-coord of box (READ ONLY);
+#### Functions
+- intersectingAABB(aabb): See if this aabb intersects another AABB;
+- intersectingRay(x,y,dx,dy,?intersectNormals): See if a ray intersects this AABB;
+- dynamicIntersectingAABB(aabb,thisDx,thisDy): Check if the path of this AABB intersects with another AABB (returns times of intersection, 0 at ray origin, 1 at (x+dx,y+dy), intersectNormals if it exists and is an array will have the normals of the intersections put in it);
+- expand(dx,dy): Expand the dimensions of this AABB by dx on the x and dy on the y;
+#### Static Functions
+- expand(v): Expand the dimensions of an AABB by dx on the x and dy on the y;
