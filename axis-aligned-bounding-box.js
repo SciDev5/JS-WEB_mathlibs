@@ -29,6 +29,10 @@ class AxisAlignedBB2 {
   }
   // See if a ray intersects this aabb.
   intersectingRay(x,y,dx,dy,intersectionNormals) {
+    if (x >= this.minX && x <= this.maxX && y >= this.minY && y <= this.maxY) {
+      intersectionNormals.push({x:0,y:0});
+      return [0];
+    }
     var minXint = (this.minX - x)/dx;
     var maxXint = (this.maxX - x)/dx;
     var minYint = (this.minY - y)/dy;
