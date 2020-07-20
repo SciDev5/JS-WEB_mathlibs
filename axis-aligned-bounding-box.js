@@ -72,7 +72,7 @@ class AxisAlignedBB2 {
       throw new TypeError("aabb not of type AxisAlignedBB2!");
     if (!isFinite(thisDx) || !isFinite(thisDy))
       throw new TypeError("Change in this pos not finite.");
-    var otherExpanded = AxisAlignedBB2.expand(aabb,this.width,this.height);
+    var otherExpanded = AxisAlignedBB2.expand(aabb,this.width/2,this.height/2);
     var intersectionNormals = [];
     var intersectionTimes = otherExpanded.intersectingRay(this.centerX,this.centerY,thisDx,thisDy,intersectionNormals);
     for (var i = intersectionTimes.length-1; i >= 0; i--) {
