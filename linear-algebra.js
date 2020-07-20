@@ -24,11 +24,15 @@ class Vector2 {
   }
   // Normalize this vector. (Changes this vector)
   nor() {
-    return this.mul(1/this.len());
+    var len = this.len();
+    if (len == 0) return new Vector2(0,0);
+    else return this.mul(1/len);
   }
   // Return a normalized copy of a vector v.
   static nor(v) {
-    return Vector2.mul(v,1/v.len());
+    var len = v.len();
+    if (len == 0) return new Vector2(0,0);
+    else return Vector2.mul(v,1/len);
   }
   // Dot product between a and b.
   static dot(a,b) {
@@ -108,11 +112,15 @@ class VectorN {
   }
   // Normalize this vector. (Changes this vector)
   nor() {
-    return this.mul(1/this.len());
+    var len = this.len();
+    if (len == 0) return new VectorN(new Array(this.values.length).fill(0));
+    else return this.mul(1/len);
   }
   // Return a normalized copy of a vector v.
   static nor(v) {
-    return VectorN.mul(v,1/v.len());
+    var len = v.len();
+    if (len == 0) return new VectorN(new Array(this.values.length).fill(0));
+    return VectorN.mul(v,1/len);
   }
   // Dot product between a and b.
   static dot(a,b) {
