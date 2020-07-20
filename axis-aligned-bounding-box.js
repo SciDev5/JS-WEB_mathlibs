@@ -87,5 +87,5 @@ class AxisAlignedBB2 {
   }
 }
 
-window.mathLibs_AxisAlignedBB = {};
+window.mathLibs_AxisAlignedBB = {AxisAlignedBB2};
 Object.freeze(window.mathLibs_AxisAlignedBB);
