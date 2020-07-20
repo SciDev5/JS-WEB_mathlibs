@@ -37,7 +37,6 @@ class AxisAlignedBB2 {
     var farX = Math.max(minXint,maxXint);
     var nearY = Math.min(minYint,maxYint);
     var farY = Math.max(minYint,maxYint);
-    console.log("nx",nearX,"fx",farX,"ny",nearY,"fy",farY,"cond",nearX > farY, nearY > farX);
     if (nearX > farY || nearY > farX)
       return [];
     var intersectionTimes = [minXint,maxXint,minYint,maxYint].sort().splice(1,2).filter(t => (t >= 0));
