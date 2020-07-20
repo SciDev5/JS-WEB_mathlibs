@@ -23,7 +23,7 @@ class AxisAlignedBB2 {
   }
   // See if this aabb intersects another aabb.
   intersectingAABB(aabb) {
-    if ((aabb instanceof AxisAlignedBB2))
+    if (!(aabb instanceof AxisAlignedBB2))
       throw new TypeError("aabb not of type AxisAlignedBB2!");
     return (this.maxX > aabb.minX || this.minX < aabb.maxX) && (this.maxY > aabb.minY || this.minY < aabb.maxY);
   }
