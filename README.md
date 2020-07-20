@@ -76,7 +76,7 @@ new AxisAlignedBB2(x0,y0,x1,y1);
 #### Functions
 - intersectingAABB(aabb): See if this aabb intersects another AABB;
 - intersectingRay(x,y,dx,dy,?intersectNormals): See if a ray intersects this AABB;
-- dynamicIntersectingAABB(aabb,thisDx,thisDy): Check if the path of this AABB intersects with another AABB (returns times of intersection, 0 at ray origin, 1 at (x+dx,y+dy), intersectNormals if it exists and is an array will have the normals of the intersections put in it);
+- dynamicIntersectingAABB(aabb,thisDx,thisDy): Check if the path of this AABB intersects with another AABB (returns object contianing whether or not there was a collission, times of intersection, 0 at ray origin, 1 at (x+dx,y+dy), and intersectNormals has the normals of the intersections put in it);
 - expand(dx,dy): Expand the dimensions of this AABB by dx on the x and dy on the y;
 #### Static Functions
 - expand(v): Expand the dimensions of an AABB by dx on the x and dy on the y;
