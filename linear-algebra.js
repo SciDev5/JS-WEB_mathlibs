@@ -344,5 +344,7 @@ class Matrix2x2 {
   }
 }
 
-window.mathLibs_LinearAlgebra = {Vector2, Matrix2x2};
+export {Vector2, VectorN, Matrix2x2, MatrixNxM};
+
+window.mathLibs_LinearAlgebra = {Vector2, VectorN, Matrix2x2, MatrixNxM};
 Object.freeze(window.mathLibs_LinearAlgebra);
